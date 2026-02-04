@@ -1,0 +1,31 @@
+{
+  "name": "web322-app",
+  "version": "1.0.0",
+  "description": "I declare that this assignment is my own work in accordance with the Seneca Academic Policy. No part of this assignment has been copied manually or electronically from any other source (including web sites) or distributed to other students.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-css": "npx @tailwindcss/cli -i ./public/css/tailwind.css -o ./public/css/main.css --watch"
+    
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hopesntn/WEB322.git"
+  },
+  "keywords": [],
+  "author": "Fabricio Alejandro Ortiz Fiallos",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Hopesntn/WEB322/issues"
+  },
+  "homepage": "https://github.com/Hopesntn/WEB322#readme",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.18",
+    "@tailwindcss/typography": "^0.5.19",
+    "daisyui": "^5.5.14",
+    "express": "^5.2.1",
+    "express-ejs-layouts": "^2.5.1",
+    "tailwindcss": "^4.1.18"
+  }
+}
