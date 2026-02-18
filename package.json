@@ -4,15 +4,15 @@
   "description": "I declare that this assignment is my own work in accordance with the Seneca Academic Policy. No part of this assignment has been copied manually or electronically from any other source (including web sites) or distributed to other students.",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build-css": "npx @tailwindcss/cli -i ./public/css/tailwind.css -o ./public/css/main.css --watch"
+    "build-css": "npx @tailwindcss/cli -i ./public/css/tailwind.css -o ./public/css/main.css --watch",
+    "start": "node server.js --watch"
     
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Hopesntn/WEB322.git"
   },
-  "keywords": [],
+  "keywords": ["webAssignment"],
   "author": "Fabricio Alejandro Ortiz Fiallos",
   "license": "ISC",
   "type": "commonjs",
