@@ -5,14 +5,15 @@
   "main": "server.js",
   "scripts": {
     "build-css": "npx @tailwindcss/cli -i ./public/css/tailwind.css -o ./public/css/main.css --watch",
-    "start": "node server.js --watch"
-    
+    "install": "node server.js --watch"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Hopesntn/WEB322.git"
   },
-  "keywords": ["webAssignment"],
+  "keywords": [
+    "webAssignment"
+  ],
   "author": "Fabricio Alejandro Ortiz Fiallos",
   "license": "ISC",
   "type": "commonjs",
@@ -24,6 +25,7 @@
     "@tailwindcss/cli": "^4.1.18",
     "@tailwindcss/typography": "^0.5.19",
     "daisyui": "^5.5.14",
+    "ejs": "^4.0.1",
     "express": "^5.2.1",
     "express-ejs-layouts": "^2.5.1",
     "tailwindcss": "^4.1.18"

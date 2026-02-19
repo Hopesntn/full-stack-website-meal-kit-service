@@ -8,7 +8,7 @@ const mealkits = [
         price: 17.99,
         cookingTime: 20,
         servings: 2,
-        imageUrl: "/assets/beef-and-broccoli-2.jpg",
+        imageUrl: "/assets/beef-and-broccoli-2.png",
         featuredMealKit: true
     },
     {
@@ -114,4 +114,4 @@ let getMealKitsByCategory = (mealkits) =>
     
 }
 
-exports(getAllMealKits, getFeaturedMealKits, getMealKitsByCategory);
+module.exports = {getAllMealKits, getFeaturedMealKits, getMealKitsByCategory};

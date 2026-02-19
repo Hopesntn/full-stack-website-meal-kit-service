@@ -1,3 +1,20 @@
+
+
+
+
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
-@plugin "daisyui"
+@plugin "daisyui";
+
+@font-face{
+    font-family: 'JetBrains Mono';
+    src: url('../fonts/JetBrainsMonoNerdFontMono-Thin.tff') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@theme {
+    --color-main: #E9EDC9;
+    --font-mono: "JetBrains Mono", monospace;
+}
