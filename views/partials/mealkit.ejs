@@ -1,0 +1,11 @@
+<div class="card bg-base-100 shadow-xl border border-base-200 h-full">
+    <figure><img src="<%= meal.imageUrl %>" alt="<%= meal.title %>" class="h-48 w-full object-cover" /></figure>
+    <div class="card-body">
+        <h3 class="card-title font-bold"><%= meal.title %></h3>
+        <p class="text-sm"><strong>Includes:</strong> <%= meal.includes %></p>
+        <div class="card-actions justify-between items-center mt-4">
+            <span class="text-lg font-black text-brand-dark">$<%= meal.price %></span>
+            <button class="btn btn-sm bg-main text-black border-none shadow">Add to Box</button>
+        </div>
+    </div>
+</div>

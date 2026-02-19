@@ -1,0 +1,53 @@
+<section>
+    <div class="hero bg-base-200">
+        <div class="hero-content flex-col lg:flex-row">
+            <img src="/assets/heroImage.jpg" class="max-w-lg rounded-lg shadow-2xl" />
+            <div class="flex flex-col items-center">
+                <h1 class="text-5xl font-bold text-center">Try your first Meal kit 100% free</h1>
+                <p class="py-6">
+                    Get premium ingredients and the lowest cost for meal kits in all Canada, use the code
+                    <strong>ALVARO#212</strong>
+                    To obtain your first box for free!!
+                </p>
+                <button class="btn btn-ghost bg-main text-black ">Get Started</button>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<div class="bg-main">
+<section class="py-16 px-4 max-w-7xl mx-auto">
+    <h2 class="text-3xl font-black text-center uppercase mb-12">Featured Meal Kits</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        <% featuredMealsKits.forEach(meal=> { %>
+            <%- include('partials/mealkit', { meal: meal }) %>
+                <% }); %>
+
+    </div>
+</section>
+</div>
+
+<section class="bg-base-200 py-16 px-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        <div class="text-center p-4">
+            <img src="/assets/home2.webp" class="mx-auto  mb-4 rounded-full shadow-main">
+            <h4 class="font-bold">Original Recipes</h4>
+            <p class="text-sm">More than 200 recipes to choose, and for every kind of taste</p>
+        </div>
+        <div class="text-center p-4">
+            <img src="/assets/home4.jpg" class="mx-auto  mb-4 rounded-full shadow-main">
+            <h4 class="font-bold">Eco-friendly and recyclable</h4>
+            <p class="text-sm">All boxes are reused and every container does not harm the environment</p>
+        </div>
+
+        <div class="text-center p-4">
+            <img src="/assets/home3.jpg" class="mx-auto  mb-4 rounded-full shadow-amber-300">
+            <h4 class="font-bold">Fresh Local</h4>
+            <p class="text-sm">All of our ingredients are carefully selected and adquired from our personal farms</p>
+        </div>
+    </div>
+</section>
