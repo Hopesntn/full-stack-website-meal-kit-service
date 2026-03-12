@@ -13,4 +13,4 @@ Course/Section: WEB322/NCC
 
 ## Project URLs
 This assignment was uploaded into my private github repository as stipulated in the assignment rules.
-GitHub Repo   : https://github.com/Hopesntn/WEB322.git
+GitHub Repo   : https://github.com/Hopesntn/WEB322
