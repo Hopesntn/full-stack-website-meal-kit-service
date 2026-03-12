@@ -17,7 +17,14 @@ const path = require("path");
 const express = require("express");
 const app = express();
 const expressLayouts = require('express-ejs-layouts');
-const mealKitUtil = require("./modules/mealkit-util.js");
+
+// added new dependencies (mongodb  -> database) - (dotenv -> pass encryption) 
+const mongoose = require("mongoose");
+//dotenv.config({ path: "./config/.env"});
+
+//Set up body-Parser
+app.use(express.urlencoded({extended: false}));
+
 
 // set expresslayouts and engine to ejs
 app.set("view engine", "ejs");
@@ -27,27 +34,15 @@ app.set("layout", "layouts/main");
 // set public folder to static
 app.use(express.static(path.join(__dirname, "public")));
 
-// Add your routes here
-// e.g. app.get() { ... }
-app.get("/", (req, res) => {
-    const Meals = mealKitUtil.getAllMealKits();
-    const featuredMeals = mealKitUtil.getFeaturedMealKits(Meals);
-    res.render("home", {featuredMealsKits: featuredMeals});
-});
 
-app.get("/on-the-menu", (req, res) => {
-    const Meals = mealKitUtil.getAllMealKits();
-    const categoryMeals = mealKitUtil.getMealKitsByCategory(Meals);
-    res.render("on-the-menu", { categoryMealKits: categoryMeals});
-});
+//Set up controllers
+const generalController = require("./controllers/generalController");
+app.use("/", generalController);
 
-app.get("/sign-up", (req, res) => {
-    res.render("sign-up");
-});
+const mealkitsController = require("./controllers/mealkitsController");
+app.use("/", mealkitsController);
 
-app.get("/log-in", (req, res) => {
-    res.render("log-in");
-});
+
 
 // This use() will not allow requests to go beyond it
 // so we place it at the end of the file, after the other routes.
@@ -56,14 +51,22 @@ app.get("/log-in", (req, res) => {
 // This means we can use it as a sort of 'catch all' when no route match is found.
 // We use this function to handle 404 requests to pages that are not found.
 app.use((req, res) => {
-    res.status(404).render("error");
+    res.status(404).render("error", {
+        title: "Error",
+        status: 404,
+        error: null
+    });
 });
 
 // This use() will add an error handler function to
 // catch all errors.
 app.use(function (err, req, res, next) {
     console.error(err.stack)
-    res.status(500).render("error")
+    res.status(500).render("error", {
+        title: "Error",
+        status: err.message,
+        error: err
+    })
 });
 
 
