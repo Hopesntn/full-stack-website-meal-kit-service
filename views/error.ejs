@@ -1,0 +1,23 @@
+<section class="flex items-center justify-center py-16 px-4">
+	<div class="max-w-xl text-center space-y-4">
+		<h1 class="text-4xl font-bold ">
+			<%= title || "Error" %>
+		</h1>
+
+		<p class="text-lg">
+			<% if (!error || status === 404 || status === "404") { %>
+				The page you are looking for cannot be found. The route may not exist or is not working.
+			<% } else { %>
+				Something went wrong while processing your request.
+				<% if (status) { %>
+					(Details: <%= status %>)
+				<% } %>
+			<% } %>
+		</p>
+
+		<div class="pt-4">
+			<a href="/home" class="btn bg-main border-none">Go back home</a>
+		</div>
+	</div>
+</section>
+

@@ -23,7 +23,7 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
         <% featuredMealsKits.forEach(meal=> { %>
-            <%- include('partials/mealkit', { meal: meal }) %>
+            <%- include('../partials/mealkit.ejs', { meal: meal }) %>
                 <% }); %>
 
     </div>
