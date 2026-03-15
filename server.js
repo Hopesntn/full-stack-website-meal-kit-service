@@ -40,7 +40,7 @@ const generalController = require("./controllers/generalController");
 app.use("/", generalController);
 
 const mealkitsController = require("./controllers/mealkitsController");
-app.use("/", mealkitsController);
+app.use("/mealkits", mealkitsController);
 
 
 
