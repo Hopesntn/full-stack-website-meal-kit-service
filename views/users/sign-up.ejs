@@ -3,33 +3,83 @@
         <div class="card-body">
             <h2 class="text-2xl font-bold  text-center mb-6">Create a Hope's account</h2>
 
-            <form id="signup-form" method="post" action="/users/sign-up" class="space-y-4 p">
+            <% if (typeof errors !=='undefined' && errors.firstName) { %>
+                    <div role="alert" class="alert alert-error">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>
+                            <%= errors.firstName %>
+                        </span>
+                    </div>
+                    <% } %>
+
+            <form id="signup-form" method="post" action="/sign-up" class="space-y-4 p">
                 <div>
                     <label class="label"></label>
-                    <input id="signup-first-name" type="text" name="name" placeholder="First Name"
-                        class="input input-bordered border border-black" required />
+                    <input id="firstName" type="text" name="firstName" placeholder="First Name"
+                        class="input input-bordered border border-black"/>
                 </div>
+
+                <% if (typeof errors !=='undefined' && errors.lastName) { %>
+                    <div role="alert" class="alert alert-error">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>
+                            <%= errors.lastName %>
+                        </span>
+                    </div>
+                    <% } %>
+                <div>
+                    <label class="label"></label>
+                    <input id="lastName" type="text" name="lastName" placeholder="Last Name"
+                        class="input input-bordered border border-black"/>
+                </div>
+
+                <% if (typeof errors !=='undefined' && errors.email) { %>
+                    <div role="alert" class="alert alert-error">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>
+                            <%= errors.email %>
+                        </span>
+                    </div>
+                    <% } %>
 
                 <div>
                     <label class="label"></label>
-                    <input id="signup-last-name" type="text" name="name" placeholder="Last Name"
-                        class="input input-bordered border border-black" required />
+                    <input id="email" type="text" name="email" placeholder="email@example.com"
+                        class="input input-bordered border border-black" />
                 </div>
 
+                <% if (typeof errors !=='undefined' && errors.password) { %>
+                    <div role="alert" class="alert alert-error">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>
+                            <%= errors.password %>
+                        </span>
+                    </div>
+                    <% } %>
                 <div>
                     <label class="label"></label>
-                    <input id="signup-email" type="text" name="email" placeholder="email@example.com"
-                        class="input input-bordered border border-black" required />
-                </div>
-
-                <div>
-                    <label class="label"></label>
-                    <input id="signup-password" type="password" name="password" placeholder="password"
-                        class="input input-bordered border border-black" required />
+                    <input id="password" type="password" name="password" placeholder="password"
+                        class="input input-bordered border border-black" />
                 </div>
 
                 <div class="flex justify-center mt-6">
-                    <button id="signup-submit" type="submit"
+                    <button id="submit" type="submit"
                         class="btn bg-main border-none  text-black font-bold shadow-md hover:bg-opacity-300">
                         Create
                     </button>

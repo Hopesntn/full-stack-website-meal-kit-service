@@ -17,17 +17,17 @@
 </section>
 
 <div class="bg-main">
-<section class="py-16 px-4 max-w-7xl mx-auto">
-    <h2 class="text-3xl font-black text-center uppercase mb-12">Featured Meal Kits</h2>
+    <section class="py-16 px-4 max-w-7xl mx-auto">
+        <h2 class="text-3xl font-black text-center uppercase mb-12">Featured Meal Kits</h2>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-        <% featuredMealsKits.forEach(meal=> { %>
-            <%- include('../partials/mealkit.ejs', { meal: meal }) %>
-                <% }); %>
+            <% featuredMealsKits.forEach(meal=> { %>
+                <%- include('../partials/mealkit.ejs', { meal: meal }) %>
+                    <% }); %>
 
-    </div>
-</section>
+        </div>
+    </section>
 </div>
 
 <section class="bg-base-200 py-16 px-4">

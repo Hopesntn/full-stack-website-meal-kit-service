@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "build-css": "npx @tailwindcss/cli -i ./public/css/tailwind.css -o ./public/css/main.css --watch",
-    "install": "node server.js --watch"
+    "start": "node server.js --watch"
   },
   "repository": {
     "type": "git",

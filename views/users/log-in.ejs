@@ -3,31 +3,58 @@
         <div class="card-body">
             <h2 class="text-2xl font-bold  text-center mb-6">Welcome Back</h2>
 
-            <form id="login-form" class="space-y-4 p">
+            <form id="loginForm" class="space-y-4 p" method="post" action="/log-in">
                 <div>
-                    <label class="label"></label>
-                    <input id="login-email" type="email" name="email" placeholder="email@example.com"
-                        class="input border border-black" required />
+                    <label for="email" class="label"></label>
+                    <input id="email" type="email" name="email" placeholder="email@example.com"
+                        class="input border border-black" />
                 </div>
-
                 <div>
-                    <label class="label"></label>
-                    <input id="login-password" type="password" name="password" placeholder="password"
-                        class="input border border-black" required />
+                    <label for="password" class="label"></label>
+                    <input id="password" type="password" name="password" placeholder="password"
+                        class="input border border-black" />
                 </div>
                 <br>
                 <div>
                     <label class="label"></label>
-                    <input id="role-customer" type="radio" name="radio-1" class="radio" checked="checked" />Customer
+                    <input id="roleCustomer" type="radio" name="radio-1" class="radio" checked />Customer
                     <label class="label"></label>
-                    <input id="role-data-clerk" type="radio" name="radio-1" class="radio" /> Data Clerk
+                    <input id="dataClerk" type="radio" name="radio-1" class="radio" /> Data Clerk
                 </div>
                 <div class="flex justify-center mt-6">
-                    <button id="login-submit" type="submit"
+                    <button id="submit" type="submit"
                         class="btn bg-main border-none  text-black font-bold shadow-md hover:bg-opacity-300">
                         Log in
                     </button>
                 </div>
+
+                <% if (typeof errors !=='undefined' && errors.email) { %>
+                    <div role="alert" class="alert alert-error">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>
+                            <%= errors.email %>
+                        </span>
+                    </div>
+                    <% } %>
+                        
+                <% if (typeof errors !=='undefined' && errors.password) { %>
+                    <div role="alert" class="alert alert-error">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>
+                            <%= errors.password %>
+                        </span>
+                    </div>
+                    <% } %>
+                
+
             </form>
         </div>
     </div>
