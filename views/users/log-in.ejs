@@ -3,32 +3,8 @@
         <div class="card-body">
             <h2 class="text-2xl font-bold  text-center mb-6">Welcome Back</h2>
 
-            <form id="loginForm" class="space-y-4 p" method="post" action="/log-in">
-                <div>
-                    <label for="email" class="label"></label>
-                    <input id="email" type="email" name="email" placeholder="email@example.com"
-                        class="input border border-black" />
-                </div>
-                <div>
-                    <label for="password" class="label"></label>
-                    <input id="password" type="password" name="password" placeholder="password"
-                        class="input border border-black" />
-                </div>
-                <br>
-                <div>
-                    <label class="label"></label>
-                    <input id="roleCustomer" type="radio" name="radio-1" class="radio" checked />Customer
-                    <label class="label"></label>
-                    <input id="dataClerk" type="radio" name="radio-1" class="radio" /> Data Clerk
-                </div>
-                <div class="flex justify-center mt-6">
-                    <button id="submit" type="submit"
-                        class="btn bg-main border-none  text-black font-bold shadow-md hover:bg-opacity-300">
-                        Log in
-                    </button>
-                </div>
-
-                <% if (typeof errors !=='undefined' && errors.email) { %>
+            <% if (typeof userErrors !=="undefined" && userErrors.length> 0) { %>
+                <% userErrors.forEach(err=> { %>
                     <div role="alert" class="alert alert-error">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none"
                             viewBox="0 0 24 24">
@@ -36,26 +12,85 @@
                                 d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                         <span>
-                            <%= errors.email %>
+                            <%= err %>
                         </span>
                     </div>
-                    <% } %>
-                        
-                <% if (typeof errors !=='undefined' && errors.password) { %>
-                    <div role="alert" class="alert alert-error">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none"
-                            viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <span>
-                            <%= errors.password %>
-                        </span>
-                    </div>
-                    <% } %>
-                
+                    <% }) %>
+                        <% } %>
 
-            </form>
+                            <% if (typeof systemError !=="undefined" && systemError) { %>
+                                <div role="alert" class="alert alert-error">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current"
+                                        fill="none" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <span>
+                                        <%= systemError %>
+                                    </span>
+                                </div>
+                                <% } %>
+
+                                    <form id="loginForm" class="space-y-4 p" method="post" action="/log-in">
+                                        <div>
+                                            <label for="email" class="label"></label>
+                                            <input id="email" type="email" name="email" placeholder="email@example.com"
+                                                class="input border border-black"
+                                                value="<%= typeof values !== 'undefined' ? values.email : '' %>" />
+                                        </div>
+                                        <div>
+                                            <label for="password" class="label"></label>
+                                            <input id="password" type="password" name="password" placeholder="password"
+                                                class="input border border-black" />
+                                        </div>
+                                        <br>
+                                        <div>
+                                            <label class="label"></label>
+                                            <input id="roleCustomer" type="radio" name="role"  value="customer" class="radio"
+                                                />Customer
+                                            <label class="label"></label>
+                                            <input id="dataClerk" type="radio" name="role" value="dataClerk" class="radio" /> Data
+                                            Clerk
+                                        </div>
+                                        <div class="flex justify-center mt-6">
+                                            <button id="submit" type="submit"
+                                                class="btn bg-main border-none  text-black font-bold shadow-md hover:bg-opacity-300">
+                                                Log in
+                                            </button>
+                                        </div>
+
+                                        <% if (typeof errors !=='undefined' && errors.email) { %>
+                                            <div role="alert" class="alert alert-error">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    class="h-6 w-6 shrink-0 stroke-current" fill="none"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                                <span>
+                                                    <%= errors.email %>
+                                                </span>
+                                            </div>
+                                            <% } %>
+
+                                                <% if (typeof errors !=='undefined' && errors.password) { %>
+                                                    <div role="alert" class="alert alert-error">
+                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                            class="h-6 w-6 shrink-0 stroke-current" fill="none"
+                                                            viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                        </svg>
+                                                        <span>
+                                                            <%= errors.password %>
+                                                        </span>
+                                                    </div>
+                                                    <% } %>
+
+
+                                    </form>
         </div>
     </div>
 </section>
