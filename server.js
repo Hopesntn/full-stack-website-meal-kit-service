@@ -17,14 +17,35 @@ const path = require("path");
 const express = require("express");
 const app = express();
 const expressLayouts = require('express-ejs-layouts');
+const session = require("express-session");
+// const fileUpload = require("express-fileupload");
 
-// added new dependencies (mongodb  -> database) - (dotenv -> pass encryption) 
+//added new dependencies (mongodb  -> database) - (dotenv -> pass encryption) 
 const mongoose = require("mongoose");
-//dotenv.config({ path: "./config/.env"});
+const dns = require("dns");
+// Set up dotenv
+const dotenv = require("dotenv");
+dotenv.config({ path: "./config/.env" });
+
+//Set up express-session
+app.use(session( {
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true
+}));
+
+// new middleware for session
+app.use((req, res, next) => {
+// copy the user to the global ejs variable "user"
+    res.locals.user = req.session.user;
+    res.locals.DATA_CLERK_ROLE = process.env.DATA_CLERK_ROLE;
+    res.locals.CUSTOMER_ROLE = process.env.CUSTOMER_ROLE;
+    next();
+});
+
 
 //Set up body-Parser
-app.use(express.urlencoded({extended: false}));
-
+app.use(express.urlencoded({ extended: true }));
 
 // set expresslayouts and engine to ejs
 app.set("view engine", "ejs");
@@ -40,6 +61,7 @@ const generalController = require("./controllers/generalController");
 app.use("/", generalController);
 
 const mealkitsController = require("./controllers/mealkitsController");
+const { default: progress } = require("daisyui/components/progress");
 app.use("/mealkits", mealkitsController);
 
 
@@ -71,15 +93,40 @@ app.use(function (err, req, res, next) {
 
 
 // *** DO NOT MODIFY THE LINES BELOW ***
-
+// Modified listened now that the database was added
+// lines modified to work around ECONNREFUSED AND querySrv
 // Define a port to listen to requests on.
 const HTTP_PORT = process.env.PORT || 8080;
 
-// Call this function after the http server starts listening for requests.
-function onHttpStart() {
-    console.log(`Express http server listening on: http://localhost:${HTTP_PORT}`);
+async function connectToMongo() {
+    try {
+        await mongoose.connect(process.env.MONGODB_CONNECTION_STRING);
+        console.log("Connected to MongoDB");
+    } catch (err) {
+        if (err && err.code === "ECONNREFUSED" && err.syscall === "querySrv") {
+            console.warn("MongoDB SRV lookup failed with local DNS. Retrying with public DNS resolvers...");
+            dns.setServers(["8.8.8.8", "1.1.1.1"]);
+            await mongoose.connect(process.env.MONGODB_CONNECTION_STRING);
+            console.log("Connected to MongoDB (public DNS fallback)");
+            return;
+        }
+
+        throw err;
+    }
 }
-  
-// Listen on port 8080. The default port for http is 80, https is 443. We use 8080 here
-// because sometimes port 80 is in use by other applications on the machine
-app.listen(HTTP_PORT, onHttpStart);
+
+connectToMongo()
+    .then(() => {
+        // Listen on port 8080. The default port for http is 80, https is 443. We use 8080 here
+        // because sometimes port 80 is in use by other applications on the machine
+        app.listen(HTTP_PORT, onHttpStart);
+    })
+    .catch((err => {
+        console.error("Couldn't connect to the database:", err.message);
+    }))
+
+    // Call this function after the http server starts listening for requests.
+function onHttpStart() {
+    console.log(`Express http server listening on: http://localhost:${HTTP_PORT}. 
+        To sign-up as data-clerk -> readme file :D`);
+}

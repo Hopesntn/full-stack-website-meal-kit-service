@@ -1,9 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const mealKitUtil = require("../modules/mealkit-util.js");
-const auth = require("../modules/auth-module.js");
-
+const auth = require("../modules/auth.js");
+const mailgun = require("../modules/mailmessage.js");
 const userModel = require("../modules/userModel");
+const FormData = require("form-data"); // form-data v4.0.1
+const Mailgun = require("mailgun.js"); // mailgun.js v11.1.0
+const bcryptjs = require("bcryptjs");
 
 
 //Main Route
@@ -30,6 +33,14 @@ router.get("/log-in", (req, res) => {
     res.render("users/log-in");
 });
 
+//Route after user sign-up
+router.get("/welcome", (req, res) => {
+    res.render("general/welcome");
+});
+
+router.get("/cart", auth.logInCustomer, (req, res) => {
+    res.render("mealkits/cart");
+});
 
 // post for validation -> Log-In
 router.post("/log-in", (req, res) => {
@@ -42,9 +53,75 @@ router.post("/log-in", (req, res) => {
                     values: req.body
                 });
             } else {
-                // In Assignment 3 you will check the DB here. 
-                // For now, we just simulate success.
-                res.render("general/welcome");
+                // Extract email and password from req.body
+                const { email, password, role} = req.body;
+                let userErrors = [];
+                userModel.nameModel.findOne({
+                    email
+                })
+                    .then(user => {
+                        if (user) {
+                            bcryptjs.compare(password, user.password)
+                                .then(matched => {
+                                    if (matched && role == user.role) {
+                                        req.session.user = user;
+                                        console.log(`A ${user.role} signed in`);
+
+                                        if(role === process.env.DATA_CLERK_ROLE){
+                                            res.redirect("/mealkits/list");
+                                        }
+                                        else{
+                                            res.redirect("/cart");
+                                        }
+                                    }
+                                    else if (role != user.role){
+                                        userErrors.push("Wrong role selected, try again");
+                                        res.render("users/log-in", {
+                                            userErrors,
+                                            values:req.body
+                                        });
+                                    } 
+                                    else {
+                                        console.log("Password didn't match");
+                                        userErrors.push("Email or password was wrong");
+                                        res.render("users/log-in", {
+                                            userErrors,
+                                            values: req.body
+                                        })
+                                    }
+
+                                })
+                                .catch(err => {
+                                    userErrors.push("There was a problem, try again");
+                                    console.log("Unable to compare passwords" + err);
+                                    userErrors.push("Issue happened");
+                                    res.render("users/log-in", {
+                                        userErrors,
+                                        values: req.body
+                                    });
+
+                                })
+                        }
+
+                        else {
+                            userErrors.push(`Sorry, you entered an invalid email and/or password`);
+                            console.log(userErrors[0]);
+                            res.render("users/log-in", {
+                                userErrors,
+                                values: req.body
+                            })
+                        }
+
+                    })
+                    .catch(err => {
+                        // not able to query
+                        console.log("Unable to query the database" + err);
+                        res.render("users/log-in", {
+                            systemError: "There was a problem signing you in. Please try again.",
+                            values: req.body,
+                            errors: {}
+                        });
+                    })
             }
         })
         .catch((err) => {
@@ -54,6 +131,12 @@ router.post("/log-in", (req, res) => {
                 errors: {}
             });
         });
+});
+
+router.get("/log-out", (req,res) => {
+    //clear the session from memory
+    req.session.destroy();
+    res.redirect("/log-in");
 });
 
 // post for validation -> Sign-Up
@@ -67,23 +150,40 @@ router.post("/sign-up", (req, res) => {
                     values: req.body
                 });
             } else {
-                // VALIDATION PASSED -> NOW SAVE TO DATABASE
-                // Note: userModel must be required at the top of the file
-                const { firstName, lastName, email, password } = req.body;
-                const newUser = new userModel({ firstName, lastName, email, password });
+                // VALIDATION PASSED -> SAVE TO DATABASE, THEN SEND EMAIL, THEN REDIRECT
+                let { firstName, lastName, email, password, role} = req.body;
 
-                newUser.save()
-                    .then(user => {
-                        console.log(`User ${user.firstName} added.`);
-                        res.redirect("/general/welcome");
+                auth.checkUserExists(email, errors)
+                    .then((userExists) => {
+                        if (userExists) {
+                            return res.render("users/sign-up", {
+                                errors: errors,
+                                values: req.body
+                            });
+                        }
+                        if(role === process.env.DATA_CLERK_PASS){
+                            role = "dataClerk";
+                        }
+                        else  {
+                            role = "customer";
+                        }
+                        const newUser = new userModel.nameModel({
+                            firstName, lastName, email, password, role
+                        });
+
+                        return newUser.save()
+                            .then(user => {
+                                console.log(`User ${user.firstName} added.`);
+                                console.log(`User role ${user.role}`);
+                                return mailgun.sendSimpleMessage(req.body);
+                            })
+                            .then(() => {
+                                res.redirect("/welcome");
+                            });
                     })
                     .catch(err => {
-                        console.log("DB Error:", err);
-                        res.render("users/sign-up", {
-                            systemError: "Database error, please try again.",
-                            values: req.body,
-                            errors: {}
-                        });
+                        console.log(`Couldn't create a document for: ${firstName}\n${err}`);
+                        res.redirect("/");
                     });
             }
         })
