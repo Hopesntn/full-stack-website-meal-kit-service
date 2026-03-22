@@ -7,29 +7,53 @@
         </svg>
       </div>
       <ul tabindex="-1" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow font-bold">
-        <li><a href="/home">Home</a></li>
+        <li><a href="/">Home</a></li>
         <li><a href="/mealkits/on-the-menu">On the Menu</a></li>
-        <li><a href="/sign-up">Sign-up</a></li>
-        <li><a href="/log-in">Log-in</a></li>
+        <% if (typeof user === "undefined") { %>
+          <li><a href="/sign-up">Sign-up</a></li>
+          <li><a href="/log-in">Log-in</a></li>
+
+        <% }  else { %>
+          <% if(user.role === DATA_CLERK_ROLE) { %>
+            <li><a href="/mealkits/list">Hello <%= user.firstName %></a></li>
+            <li><a href="/log-out">Log-out</a></li>
+        <% } else { %>
+            <li><a href="/cart">Hello <%= user.firstName %></a></li>
+            <li><a href="/log-out">Log-out</a></li>
+
+           <% } %>
+        <% } %>
       </ul>
     </div>
-    <a href="/home" class="hidden lg:flex items-center shrink-0">
+    <a href="/" class="hidden lg:flex items-center shrink-0">
       <img src="/assets/logo.png" alt="Logo" class="h-40 w-auto object-contain">
     </a>
   </div>
 
   <div class="navbar-center lg:hidden">
-    <a href="/home" class="flex items-center">
+    <a href="/" class="flex items-center">
       <img src="/assets/logo.png" alt="Logo" class="h-40 w-auto object-contain">
     </a>
   </div>
 
   <div class="navbar-end gap-2">
     <ul class="menu menu-horizontal hidden lg:flex px-1">
-      <li><a href="/home">Home</a></li>
+      
+      <li><a href="/">Home</a></li>
       <li><a href="/mealkits/on-the-menu">On the Menu</a></li>
-      <li><a href="/sign-up">Sign Up</a></li>
-      <li><a href="/log-in">Login</a></li>
+      <% if (typeof user === "undefined") { %>
+          <li><a href="/sign-up">Sign-up</a></li>
+          <li><a href="/log-in">Log-in</a></li>
+
+        <% }  else { %>
+          <% if(user.role === DATA_CLERK_ROLE) { %>
+            <li><a href="/mealkits/list">Hello <%= user.firstName %></a></li>
+            <li><a href="/log-out">Log-out</a></li>
+          <% } else { %>
+            <li><a href="/cart">Hello <%= user.firstName %></a></li>
+            <li><a href="/log-out">Log-out</a></li>
+          <% } %>
+        <% } %>
     </ul>
     <button class="btn btn-ghost btn-circle">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
