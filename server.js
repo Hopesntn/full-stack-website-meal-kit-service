@@ -127,6 +127,5 @@ connectToMongo()
 
     // Call this function after the http server starts listening for requests.
 function onHttpStart() {
-    console.log(`Express http server listening on: http://localhost:${HTTP_PORT}. 
-        To sign-up as data-clerk -> readme file :D`);
+    console.log(`Express http server listening on: http://localhost:${HTTP_PORT}`);
 }
