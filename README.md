@@ -15,7 +15,7 @@ Course/Section: WEB322/NCC
 This assignment was uploaded into my private github repository as stipulated in the assignment rules.
 GitHub Repo   : https://github.com/Hopesntn/WEB322
 
-# To sign-up as a data clerk
-I decided that the sign-up should include a specific password if a user wants to sign-up as a data clerk. If the user doesn't enter any password, it automatically makes the user a customer.
-data clerk pass = alvarin0107
+# How to sign-in as dataClerk or Customer
+Select the role you want inside sign-in, customer or data clerk.
+
 

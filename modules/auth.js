@@ -37,13 +37,17 @@ const validateAndSignUp = async (formData) => {
 const validateAndLogIn = async (formData) => {
    let errors = {};
 
-   const { email, password } = formData;
+   const { email, password, role } = formData;
 
    if (!email || email.trim() === "")
       errors.email = "Please enter your email";
 
    if (!password || password.trim() === "")
       errors.password = "Please enter your password"
+
+   const allowedRoles = [process.env.CUSTOMER_ROLE, process.env.DATA_CLERK_ROLE];
+   if (!role || !allowedRoles.includes(role))
+      errors.role = "Please select a valid role";
 
    return errors;
 }

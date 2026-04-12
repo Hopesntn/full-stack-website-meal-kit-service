@@ -63,9 +63,15 @@ router.post("/log-in", (req, res) => {
                         if (user) {
                             bcryptjs.compare(password, user.password)
                                 .then(matched => {
-                                    if (matched && role == user.role) {
-                                        req.session.user = user;
-                                        console.log(`A ${user.role} signed in`);
+                                    if (matched) {
+                                        req.session.user = {
+                                            _id: user._id,
+                                            firstName: user.firstName,
+                                            lastName: user.lastName,
+                                            email: user.email,
+                                            role
+                                        };
+                                        console.log(`A ${req.session.user.role} signed in`);
 
                                         if(role === process.env.DATA_CLERK_ROLE){
                                             res.redirect("/mealkits/list");
@@ -73,13 +79,7 @@ router.post("/log-in", (req, res) => {
                                         else{
                                             res.redirect("/cart");
                                         }
-                                    }
-                                    else if (role != user.role){
-                                        userErrors.push("Wrong role selected, try again");
-                                        res.render("users/log-in", {
-                                            userErrors,
-                                            values:req.body
-                                        });
+                                    
                                     } 
                                     else {
                                         console.log("Password didn't match");
@@ -151,7 +151,7 @@ router.post("/sign-up", (req, res) => {
                 });
             } else {
                 // VALIDATION PASSED -> SAVE TO DATABASE, THEN SEND EMAIL, THEN REDIRECT
-                let { firstName, lastName, email, password, role} = req.body;
+                let { firstName, lastName, email, password } = req.body;
 
                 auth.checkUserExists(email, errors)
                     .then((userExists) => {
@@ -161,20 +161,13 @@ router.post("/sign-up", (req, res) => {
                                 values: req.body
                             });
                         }
-                        if(role === process.env.DATA_CLERK_PASS){
-                            role = "dataClerk";
-                        }
-                        else  {
-                            role = "customer";
-                        }
                         const newUser = new userModel.nameModel({
-                            firstName, lastName, email, password, role
+                            firstName, lastName, email, password
                         });
 
                         return newUser.save()
                             .then(user => {
                                 console.log(`User ${user.firstName} added.`);
-                                console.log(`User role ${user.role}`);
                                 return mailgun.sendSimpleMessage(req.body);
                             })
                             .then(() => {
