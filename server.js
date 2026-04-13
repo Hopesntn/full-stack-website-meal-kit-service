@@ -18,7 +18,7 @@ const express = require("express");
 const app = express();
 const expressLayouts = require('express-ejs-layouts');
 const session = require("express-session");
-// const fileUpload = require("express-fileupload");
+const fileUpload = require("express-fileupload");
 
 //added new dependencies (mongodb  -> database) - (dotenv -> pass encryption) 
 const mongoose = require("mongoose");
@@ -55,14 +55,18 @@ app.set("layout", "layouts/main");
 // set public folder to static
 app.use(express.static(path.join(__dirname, "public")));
 
+// Set up file upload middleware
+app.use(fileUpload());
 
 //Set up controllers
 const generalController = require("./controllers/generalController");
 app.use("/", generalController);
 
 const mealkitsController = require("./controllers/mealkitsController");
-const { default: progress } = require("daisyui/components/progress");
 app.use("/mealkits", mealkitsController);
+
+const loadDataController = require("./controllers/loadDataController");
+app.use("/", loadDataController);
 
 
 

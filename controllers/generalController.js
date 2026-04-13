@@ -39,7 +39,68 @@ router.get("/welcome", (req, res) => {
 });
 
 router.get("/cart", auth.logInCustomer, (req, res) => {
-    res.render("mealkits/cart");
+    res.render("mealkits/cart", { cart: req.session.cart || [] });
+});
+
+// POST - Place order and send email
+router.post("/place-order", auth.logInCustomer, (req, res) => {
+    if (!req.session.cart || req.session.cart.length === 0) {
+        return res.redirect("/cart");
+    }
+
+    const { email, firstName, lastName } = req.session.user;
+    const cart = req.session.cart;
+
+    let subtotal = 0;
+    let emailContent = "<h2>Order Confirmation</h2>";
+    emailContent += `<p>Hello ${firstName} ${lastName},</p>`;
+    emailContent += "<p>Thank you for your order! Here are your order details:</p>";
+    emailContent += "<table border='1' cellpadding='10' style='border-collapse: collapse;'>";
+    emailContent += "<tr><th>Item</th><th>Price</th><th>Quantity</th><th>Total</th></tr>";
+
+    cart.forEach(item => {
+        const lineTotal = item.price * item.quantity;
+        subtotal += lineTotal;
+        emailContent += `<tr><td>${item.title}</td><td>$${item.price.toFixed(2)}</td><td>${item.quantity}</td><td>$${lineTotal.toFixed(2)}</td></tr>`;
+    });
+
+    const tax = subtotal * 0.10;
+    const grandTotal = subtotal + tax;
+
+    emailContent += "</table>";
+    emailContent += `<p><strong>Subtotal:</strong> $${subtotal.toFixed(2)}</p>`;
+    emailContent += `<p><strong>Tax (10%):</strong> $${tax.toFixed(2)}</p>`;
+    emailContent += `<p><strong>Grand Total:</strong> $${grandTotal.toFixed(2)}</p>`;
+    emailContent += "<p>Your meal kits will arrive within 2-3 business days.</p>";
+    emailContent += "<p>Thank you for choosing us!</p>";
+
+    const mailgunInstance = new Mailgun(FormData);
+    const mg = mailgunInstance.client({
+        username: "api",
+        key: process.env.MAILGUN_API_KEY
+    });
+
+    mg.messages.create("sandboxb73d55e305ce464ca8eec5498fd0b78c.mailgun.org", {
+        from: "Meal Kit Service <postmaster@sandboxb73d55e305ce464ca8eec5498fd0b78c.mailgun.org>",
+        to: [`${firstName} ${lastName} <${email}>`],
+        subject: `Order Confirmation - $${grandTotal.toFixed(2)}`,
+        html: emailContent
+    })
+        .then(data => {
+            req.session.cart = [];
+            res.render("error", {
+                title: "Order Placed",
+                status: 200,
+                error: { message: "Your order has been placed successfully! Check your email for confirmation." }
+            });
+        })
+        .catch(err => {
+            res.status(500).render("error", {
+                title: "Order Error",
+                status: 500,
+                error: { message: "Error processing your order. Please try again." }
+            });
+        });
 });
 
 // post for validation -> Log-In
