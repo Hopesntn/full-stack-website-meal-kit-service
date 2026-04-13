@@ -18,4 +18,6 @@ GitHub Repo   : https://github.com/Hopesntn/WEB322
 # How to sign-in as dataClerk or Customer
 Select the role you want inside sign-in, customer or data clerk.
 
+# Vercel deployment URL
+web-322-2261-ncc-mvc.vercel.app
 
