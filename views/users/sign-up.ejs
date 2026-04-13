@@ -16,7 +16,7 @@
                     </div>
                     <% } %>
 
-            <form id="signup-form" method="post" action="/sign-up" class="space-y-4 p">
+            <form id="signup-form" method="post" action="/sign-up" class="space-y-4 p" enctype="multipart/form-data">
                 <div>
                     <label class="label"></label>
                     <input id="firstName" type="text" name="firstName" placeholder="First Name"
@@ -77,6 +77,7 @@
                     <input id="password" type="password" name="password" placeholder="password"
                         class="input input-bordered border border-black" />
                 </div>
+
                 <div class="flex justify-center mt-6">
                     <button id="submit" type="submit"
                         class="btn bg-main border-none  text-black font-bold shadow-md hover:bg-opacity-300">

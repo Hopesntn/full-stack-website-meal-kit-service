@@ -17,41 +17,8 @@
 
                 <div class="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-8">
                     <% category.mealkits.forEach(meal=> { %>
-                        <div
-                            class="card bg-base-100 shadow-xl border border-base-200 overflow-hidden flex flex-col h-full hover:shadow-2xl transition-shadow">
-
-                            <figure class="relative h-64">
-                                <img src="<%= meal.imageUrl %>" alt="<%= meal.title %>"
-                                    class="w-full h-full object-cover" />
-                                <div class="absolute top-4 left-4">
-                                    <span
-                                        class="badge bg-brand border-none text-black font-bold uppercase text-xs p-3 shadow-sm">
-                                        <%= meal.category %>
-                                    </span>
-                                </div>
-                            </figure>
-
-                            <div class="card-body flex flex-col grow">
-                                <h2 class="card-title font-black text-2xl">
-                                    <%= meal.title %>
-                                </h2>
-                                <p class="text-sm opacity-70 grow">
-                                    <%= meal.description %>
-                                </p>
-
-                                <div class="mt-6 flex items-center justify-between border-t border-base-200 pt-4">
-                                    <div class="flex flex-col">
-                                        <span class="text-xs uppercase font-bold opacity-50">Price</span>
-                                        <span class="text-2xl font-black">$<%= meal.price %></span>
-                                    </div>
-                                    <button
-                                        class="btn bg-brand border-none text-black bg-main font-bold shadow-md">
-                                        Add to Box
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <% }) %>
+                        <%- include('../partials/mealkit.ejs', { meal: meal }) %>
+                    <% }) %>
                 </div>
             </div>
 
