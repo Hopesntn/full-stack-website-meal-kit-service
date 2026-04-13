@@ -1,15 +1,62 @@
-<section class="flex items-center justify-center py-16 px-4">
-	<div class="max-w-xl text-center space-y-4">
-		<h1 class="text-4xl font-bold ">
-			Soon
-		</h1>
+<section class="max-w-7xl mx-auto py-12 px-4 sm:px-8">
+    <div class="mb-8">
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+            <h1 class="text-4xl font-black uppercase">Meal Kit Inventory</h1>
+            <a href="/mealkits/add" class="btn bg-main text-black border-none font-bold">+ Add New Meal Kit</a>
+        </div>
+        <a href="/load-data/mealkits" class="btn btn-outline mt-4">Load Sample Data</a>
+    </div>
 
-		<p class="text-lg">
-				Creating, deleting and updating meals it's not ready yet
-		</p>
-
-		<div class="pt-4">
-			<a href="/home" class="btn bg-main border-none">Go back home</a>
-		</div>
-	</div>
+    <% if (mealKits && mealKits.length > 0) { %>
+        <div class="overflow-x-auto bg-base-100 rounded-lg shadow-lg">
+            <table class="table w-full">
+                <thead class="bg-main text-black">
+                    <tr>
+                        <th>Image</th>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Featured</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% mealKits.forEach(meal => { %>
+                        <tr class="hover">
+                            <td>
+                                <div class="avatar">
+                                    <div class="mask mask-squircle w-12 h-12">
+                                        <img src="<%= meal.imageUrl %>" alt="<%= meal.title %>" />
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <strong><%= meal.title %></strong>
+                            </td>
+                            <td><%= meal.category %></td>
+                            <td>$<%= meal.price.toFixed(2) %></td>
+                            <td>
+                                <% if (meal.featuredMealKit) { %>
+                                    <span class="badge badge-success">Featured</span>
+                                <% } else { %>
+                                    <span class="badge">Regular</span>
+                                <% } %>
+                            </td>
+                            <td>
+                                <div class="flex gap-2">
+                                    <a href="/mealkits/edit/<%= meal._id %>" class="btn btn-sm btn-info text-white">Edit</a>
+                                    <a href="/mealkits/remove/<%= meal._id %>" class="btn btn-sm btn-error text-white">Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    <% } else { %>
+        <div class="text-center py-20 bg-base-200 rounded-3xl">
+            <p class="text-2xl font-bold opacity-50">No meal kits yet</p>
+            <a href="/mealkits/add" class="btn bg-main text-black border-none mt-4">Create First Meal Kit</a>
+        </div>
+    <% } %>
 </section>

@@ -1,15 +1,98 @@
-<section class="flex items-center justify-center py-16 px-4">
-	<div class="max-w-xl text-center space-y-4">
-		<h1 class="text-4xl font-bold ">
-			Soon
-		</h1>
+<section class="max-w-6xl mx-auto py-12 px-4 sm:px-8">
+    <h1 class="text-4xl font-black uppercase mb-8">Your Shopping Box</h1>
 
-		<p class="text-lg">
-				The shopping cart it's not ready yet.
-		</p>
+    <% if (cart && cart.length > 0) { %>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Cart Items -->
+            <div class="lg:col-span-2">
+                <div class="space-y-4">
+                    <% 
+                        let subtotal = 0;
+                        cart.forEach(item => {
+                            const lineTotal = item.price * item.quantity;
+                            subtotal += lineTotal;
+                    %>
+                        <div class="card bg-base-100 shadow-md border border-base-200">
+                            <div class="card-body">
+                                <div class="flex gap-4">
+                                    <!-- Item Image -->
+                                    <figure class="w-24 h-24 flex-shrink-0">
+                                        <img src="<%= item.imageUrl %>" alt="<%= item.title %>" class="w-full h-full object-cover rounded-lg">
+                                    </figure>
 
-		<div class="pt-4">
-			<a href="/home" class="btn bg-main border-none">Go back home</a>
-		</div>
-	</div>
+                                    <!-- Item Details -->
+                                    <div class="flex-grow">
+                                        <h3 class="card-title text-xl font-bold"><%= item.title %></h3>
+                                        <p class="text-sm opacity-70"><strong>Includes:</strong> <%= item.includes %></p>
+                                        <p class="text-lg font-black mt-2">$<%= item.price.toFixed(2) %> each</p>
+                                    </div>
+
+                                    <!-- Quantity and Actions -->
+                                    <div class="flex flex-col justify-between items-end">
+                                        <form action="/mealkits/remove-from-cart/<%= item._id %>" method="POST">
+                                            <button type="submit" class="btn btn-sm btn-ghost text-error">Remove</button>
+                                        </form>
+
+                                        <div class="flex items-center gap-2 mt-2">
+                                            <form action="/mealkits/update-cart" method="POST" class="flex items-center gap-2">
+                                                <input type="hidden" name="itemId" value="<%= item._id %>">
+                                                <input type="number" name="quantity" value="<%= item.quantity %>" min="1" max="99" 
+                                                       class="input input-bordered input-sm w-16" onchange="this.form.submit()">
+                                            </form>
+                                            <span class="font-bold min-w-max">Qty: <%= item.quantity %></span>
+                                        </div>
+
+                                        <p class="text-2xl font-black text-main mt-2">$<%= (item.price * item.quantity).toFixed(2) %></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div>
+                <div class="card bg-base-100 shadow-lg sticky top-20">
+                    <div class="card-body space-y-4">
+                        <h2 class="card-title text-2xl font-black">Order Summary</h2>
+
+                        <div class="divider m-0"></div>
+
+                        <div class="space-y-3">
+                            <div class="flex justify-between text-lg">
+                                <span class="font-bold">Subtotal:</span>
+                                <span class="font-black">$<%= subtotal.toFixed(2) %></span>
+                            </div>
+
+                            <div class="flex justify-between text-lg">
+                                <span class="font-bold">Tax (10%):</span>
+                                <span class="font-black">$<%= (subtotal * 0.10).toFixed(2) %></span>
+                            </div>
+
+                            <div class="divider m-0"></div>
+
+                            <div class="flex justify-between text-2xl">
+                                <span class="font-black">Grand Total:</span>
+                                <span class="font-black text-main">$<%= (subtotal + subtotal * 0.10).toFixed(2) %></span>
+                            </div>
+                        </div>
+
+                        <form action="/place-order" method="POST">
+                            <button type="submit" class="btn bg-main text-black border-none font-bold w-full btn-lg">Place Order</button>
+                        </form>
+
+                        <a href="/mealkits/on-the-menu" class="btn btn-outline w-full">Continue Shopping</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <% } else { %>
+        <div class="text-center py-20 bg-base-200 rounded-3xl">
+            <p class="text-2xl font-bold opacity-50 mb-4">Your box is empty</p>
+            <p class="text-lg opacity-50 mb-8">Start adding meal kits to get started</p>
+            <a href="/mealkits/on-the-menu" class="btn bg-main text-black border-none font-bold">Browse Meal Kits</a>
+        </div>
+    <% } %>
 </section>

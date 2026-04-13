@@ -1,0 +1,148 @@
+<section class="max-w-4xl mx-auto py-12 px-4 sm:px-8">
+    <h1 class="text-4xl font-black uppercase mb-8">Add New Meal Kit</h1>
+
+    <div class="bg-base-100 shadow-lg rounded-lg p-8">
+        <form method="POST" enctype="multipart/form-data" class="space-y-6">
+            
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text font-bold">Title *</span>
+                </label>
+                <input type="text" name="title" value="<%= values.title || '' %>" 
+                       class="input input-bordered <%= errors.title ? 'input-error' : '' %>" 
+                       required>
+                <% if (errors.title) { %>
+                    <label class="label">
+                        <span class="label-text-alt text-error"><%= errors.title %></span>
+                    </label>
+                <% } %>
+            </div>
+
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text font-bold">Includes *</span>
+                </label>
+                <input type="text" name="includes" value="<%= values.includes || '' %>" 
+                       class="input input-bordered <%= errors.includes ? 'input-error' : '' %>" 
+                       placeholder="e.g., Brown Rice & Sesame Seeds"
+                       required>
+                <% if (errors.includes) { %>
+                    <label class="label">
+                        <span class="label-text-alt text-error"><%= errors.includes %></span>
+                    </label>
+                <% } %>
+            </div>
+
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text font-bold">Description *</span>
+                </label>
+                <textarea name="description" class="textarea textarea-bordered h-24 <%= errors.description ? 'textarea-error' : '' %>" 
+                          placeholder="Detailed meal description" required><%= values.description || '' %></textarea>
+                <% if (errors.description) { %>
+                    <label class="label">
+                        <span class="label-text-alt text-error"><%= errors.description %></span>
+                    </label>
+                <% } %>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text font-bold">Category *</span>
+                    </label>
+                    <input type="text" name="category" value="<%= values.category || '' %>" 
+                           class="input input-bordered <%= errors.category ? 'input-error' : '' %>" 
+                           placeholder="e.g., Classic Meals"
+                           required>
+                    <% if (errors.category) { %>
+                        <label class="label">
+                            <span class="label-text-alt text-error"><%= errors.category %></span>
+                        </label>
+                    <% } %>
+                </div>
+
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text font-bold">Price *</span>
+                    </label>
+                    <input type="number" name="price" value="<%= values.price || '' %>" 
+                           step="0.01" min="0" class="input input-bordered <%= errors.price ? 'input-error' : '' %>" 
+                           placeholder="19.99"
+                           required>
+                    <% if (errors.price) { %>
+                        <label class="label">
+                            <span class="label-text-alt text-error"><%= errors.price %></span>
+                        </label>
+                    <% } %>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text font-bold">Cooking Time (minutes) *</span>
+                    </label>
+                    <input type="number" name="cookingTime" value="<%= values.cookingTime || '' %>" 
+                           min="1" class="input input-bordered <%= errors.cookingTime ? 'input-error' : '' %>" 
+                           placeholder="20"
+                           required>
+                    <% if (errors.cookingTime) { %>
+                        <label class="label">
+                            <span class="label-text-alt text-error"><%= errors.cookingTime %></span>
+                        </label>
+                    <% } %>
+                </div>
+
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text font-bold">Servings *</span>
+                    </label>
+                    <input type="number" name="servings" value="<%= values.servings || '' %>" 
+                           min="1" class="input input-bordered <%= errors.servings ? 'input-error' : '' %>" 
+                           placeholder="2"
+                           required>
+                    <% if (errors.servings) { %>
+                        <label class="label">
+                            <span class="label-text-alt text-error"><%= errors.servings %></span>
+                        </label>
+                    <% } %>
+                </div>
+            </div>
+
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text font-bold">Meal Kit Image *</span>
+                    <span class="label-text-alt">(JPG, JPEG, PNG, GIF only)</span>
+                </label>
+                <input type="file" name="imageUrl" class="file-input file-input-bordered <%= errors.imageUrl ? 'file-input-error' : '' %>" 
+                       accept=".jpg,.jpeg,.png,.gif" required>
+                <% if (errors.imageUrl) { %>
+                    <label class="label">
+                        <span class="label-text-alt text-error"><%= errors.imageUrl %></span>
+                    </label>
+                <% } %>
+            </div>
+
+            <div class="form-control">
+                <label class="label cursor-pointer">
+                    <span class="label-text font-bold">Featured Meal Kit</span>
+                    <input type="checkbox" name="featuredMealKit" class="checkbox" 
+                           <% if (values.featuredMealKit === 'on') { %>checked<% } %>>
+                </label>
+            </div>
+
+            <% if (errors.general) { %>
+                <div class="alert alert-error">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l-2-2m0 0l-2-2m2 2l2-2m-2 2l-2 2m2-2l2 2m-2-2l-2-2m2 2l-2-2m2 2l2-2m-2-2l2 2m-2-2l-2 2" /></svg>
+                    <span><%= errors.general %></span>
+                </div>
+            <% } %>
+
+            <div class="flex gap-4 pt-4">
+                <button type="submit" class="btn bg-main text-black border-none font-bold flex-1">Save Meal Kit</button>
+                <a href="/mealkits/list" class="btn btn-outline flex-1">Cancel</a>
+            </div>
+        </form>
+    </div>
+</section>
