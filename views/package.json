@@ -1,0 +1,41 @@
+{
+  "name": "web322-app",
+  "version": "1.0.0",
+  "description": "I declare that this assignment is my own work in accordance with the Seneca Academic Policy. No part of this assignment has been copied manually or electronically from any other source (including web sites) or distributed to other students.",
+  "main": "server.js",
+  "scripts": {
+    "build-css": "npx @tailwindcss/cli -i ./public/css/tailwind.css -o ./public/css/main.css --watch",
+    "start": "node server.js --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hopesntn/WEB322.git"
+  },
+  "keywords": [
+    "webAssignment"
+  ],
+  "author": "Fabricio Alejandro Ortiz Fiallos",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Hopesntn/WEB322/issues"
+  },
+  "homepage": "https://github.com/Hopesntn/WEB322#readme",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.18",
+    "@tailwindcss/typography": "^0.5.19",
+    "bcryptjs": "^3.0.3",
+    "daisyui": "^5.5.14",
+    "dotenv": "^17.3.1",
+    "ejs": "^4.0.1",
+    "express": "^5.2.1",
+    "express-ejs-layouts": "^2.5.1",
+    "express-fileupload": "^1.5.2",
+    "express-session": "^1.19.0",
+    "form-data": "^4.0.5",
+    "mailgun.js": "^12.7.1",
+    "mongoose": "^9.3.1",
+    "start": "^5.1.0",
+    "tailwindcss": "^4.1.18"
+  }
+}

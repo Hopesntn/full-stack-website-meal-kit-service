@@ -1,0 +1,6 @@
+node_modules/
+.github/
+*.zip
+.env
+env/
+*.md
