@@ -1,26 +1,19 @@
 {
-  "name": "web322-app",
+  "name": "meal-kit-service",
   "version": "1.0.0",
-  "description": "I declare that this assignment is my own work in accordance with the Seneca Academic Policy. No part of this assignment has been copied manually or electronically from any other source (including web sites) or distributed to other students.",
+  "description": "A web application for browsing and ordering meal kits.",
   "main": "server.js",
   "scripts": {
     "build-css": "npx @tailwindcss/cli -i ./public/css/tailwind.css -o ./public/css/main.css --watch",
     "start": "node server.js --watch"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Hopesntn/WEB322.git"
-  },
   "keywords": [
-    "webAssignment"
+    "meal-kit",
+    "food-ordering"
   ],
   "author": "Fabricio Alejandro Ortiz Fiallos",
   "license": "ISC",
   "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/Hopesntn/WEB322/issues"
-  },
-  "homepage": "https://github.com/Hopesntn/WEB322#readme",
   "dependencies": {
     "@tailwindcss/cli": "^4.1.18",
     "@tailwindcss/typography": "^0.5.19",
